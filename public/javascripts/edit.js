@@ -14,6 +14,7 @@ $(document).ready(function(){
      if( msg != '') {
        now.distributeMessage(msg);
        $("#text-input").val('');
+       $("#text-input").focus();
      }
    });
   //Polygon stuff
