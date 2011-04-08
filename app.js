@@ -56,6 +56,10 @@ everyone.now.distributeMessage= function(msg) {
   everyone.now.receiveMessage(this.now.name, msg, this.now.color );
 }
 
+everyone.now.distributePolygon= function(GeoJson) {
+  everyone.now.receivePolygon(this.now.name, GeoJson );
+}
+
 var clients = 0;
 var colors = ["red", "green", "blue", "purple", "lime"];
 everyone.now.giveMeAColor= function(){
