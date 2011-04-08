@@ -7,6 +7,8 @@ var server = require('http').createServer(function(req, response){
   });
 });
 server.listen(8080);
+
+//Node here
 var everyone = require("now").initialize(server);
 
 everyone.now.distributeMessage= function(msg) {
