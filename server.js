@@ -31,11 +31,6 @@ var everyone = require("now").initialize(app);
 everyone.now.distributeMessage= function(msg) {
   everyone.now.receiveMessage(this.now.name, msg, this.now.color );
 }
-var clients = 0;
-var colors = ["red", "green", "blue", "purple", "lime"];
-everyone.now.giveMeAColor= function(){
-  this.now.color = colors[clients++];
-}
 
 function rand(n){
   return(Math.floor(Math.random()*n+1));
