@@ -56,14 +56,14 @@ everyone.now.distributeMessage= function(msg) {
   everyone.now.receiveMessage(this.now.name, msg, this.now.color );
 }
 
+everyone.now.distributePolygon= function(GeoJson) {
+  everyone.now.receivePolygon(this.now.name, GeoJson );
+}
+
 var clients = 0;
-var colors = ["red", "green", "blue", "purple", "lime"];
-var cool_names = ["The Game", "Rick Astley", "Trolololo", "G33K", "1337", "OVER 9000!", "Anon", "Gon", "It's a trap!"]
+var colors = ["green", "blue", "purple", "lime", "red"];
 everyone.connected(function(){
         this.now.color = colors[clients];
-        this.now.name = cool_names[rand(cool_names.length)-1];
+        this.now.name = "Cool Guest"+clients;
         clients++;
 });
-function rand(n){
-          return (Math.floor(Math.random()*n + 1));
-}

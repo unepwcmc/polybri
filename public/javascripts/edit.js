@@ -1,5 +1,6 @@
-
 $(document).ready(function(){
+
+  //Chat stuff
    now.receiveMessage = function(name, message, color){
      $("#chat").append("<br><span style='color: "+color+"'>" + name + "</span>: " + message);
    }
@@ -10,6 +11,12 @@ $(document).ready(function(){
        $("#text-input").val('');
      }
    });
+
+  //Polygon stuff
+  now.receivePolygon = function(name, GeoJson){
+
+  };
+
 });
 
 var poly;
