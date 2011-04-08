@@ -5,7 +5,7 @@ Simple now.js polygon editing by WCMC
 - Install now to npm with `npm install now`
 
 ## Running
-node server.js
+`node app.js`
 
 ## Problems?
 "Cannot find module `now`"
