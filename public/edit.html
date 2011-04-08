@@ -5,7 +5,7 @@
     <script src="/nowjs/now.js"></script>
     <script>
       $(document).ready(function(){
-        now.name = prompt("What's your name?", "");
+        now.name = prompt("What's your name?", "");  
         now.receiveMessage = function(name, message){
           $("#chat").append("<br>" + name + ": " + message);
         }

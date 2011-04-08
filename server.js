@@ -1,5 +1,6 @@
-var fs = require('fs');
-var server = require('http').createServer(function(req, response){
+var fs = require('fs'),
+    http = require('http');
+var server = http.createServer(function(req, response){
   fs.readFile(__dirname+'/public/edit.html', function(err, data){
     response.writeHead(200, {'Content-Type':'text/html'}); 
     response.write(data);  
