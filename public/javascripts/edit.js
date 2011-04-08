@@ -62,7 +62,7 @@ function initPolygon(owner) {
       strokeColor: '#FF6600'
     });
     poly.setMap(map);
-    poly.setPaths(new google.maps.MVCArray([new google.maps.MVCArray]));
+    poly.setPaths(new google.maps.MVCArray([my_path]));
     polygons[owner] = poly;
   } else {
     // TODO: clear poly and path.
@@ -79,7 +79,6 @@ function addPoint(event) {
   addPointUsingLatLong(event.latLng)
 }
 function addPointUsingLatLong(latLng) {
-  var poly = polygons[now.name];
   my_path.insertAt(my_path.length,latLng);
 
   var marker = new google.maps.Marker({
@@ -88,8 +87,8 @@ function addPointUsingLatLong(latLng) {
     draggable: true,
     icon: vertexIcon
   });
-  marker.setTitle("#" + my_path.length);
   my_markers.push(marker);
+  marker.setTitle("#" + my_path.length);
 
   // Remove on click.
   google.maps.event.addListener(marker, 'click', function() {
