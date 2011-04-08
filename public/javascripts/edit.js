@@ -90,16 +90,41 @@ function addPointUsingLatLong(latLng) {
   my_markers.push(marker);
   marker.setTitle("#" + my_path.length);
 
+  propagateChanges();
+
   // Remove on click.
   google.maps.event.addListener(marker, 'click', function() {
     marker.setMap(null);
-    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i);
+    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i)
+      ;
     my_markers.splice(i, 1);
     my_path.removeAt(i);
+    propagateChanges();
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
-    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i);
+    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i)
+      ;
     my_path.setAt(i, marker.getPosition());
+    propagateChanges();
   });
 }
+
+function propagateChanges() {
+/*adapted from Lifeweb's calculator.js*/
+  var pathArray = [];
+  var numPoints = my_path.length;
+  for (var i = 0; i < numPoints; i++) {
+    var point = my_path.getAt(i);
+    var lat = point.lat();
+    var lng = point.lng();
+    pathArray.push([lng,lat]);
+  }
+
+  var geojson = $.toJSON({
+    "type":"MultiPolygon",
+    "coordinates":[[pathArray]]
+  });
+  now.distributePolygon(geojson);
+}
+
