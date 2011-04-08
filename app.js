@@ -57,9 +57,9 @@ everyone.now.distributeMessage= function(msg) {
 }
 
 var clients = 0;
-var colors = ["red", "green", "blue", "purple", "lime"];
+var colors = ["green", "blue", "purple", "lime", "red"];
 everyone.connected(function(){
         this.now.color = colors[clients];
-        this.now.name = "GUEST"+clients;
+        this.now.name = "Cool Guest"+clients;
         clients++;
 });
