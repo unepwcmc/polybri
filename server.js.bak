@@ -18,7 +18,7 @@ app.get('/', function(req, res){
 
 app.get('/index', function(req, res){
   res.render('index', {locals: {
-    title: 'NowJS + Express Example'
+    title: 'All accepted results'
   }});
 });
 
