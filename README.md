@@ -14,5 +14,6 @@ Did you install node via brew? Bad idea, go install from source.
 ## Node modules needed
 -ejs
 -express
--now 
+-now
+-pg
 (install these with 'npm install <package-name>')

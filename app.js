@@ -51,9 +51,11 @@ if (!module.parent) {
 
 //Now here
 var everyone = require("now").initialize(app);
-
+var last_speaker = "";
 everyone.now.distributeMessage= function(msg) {
-  everyone.now.receiveMessage(this.now.name, msg, this.now.color );
+  var sameWriter = (last_speaker == this.now.name);
+  last_speaker = this.now.name;
+  everyone.now.receiveMessage(this.now.name, msg, this.now.color, sameWriter);
 }
 
 everyone.now.distributePolygon= function(GeoJson) {

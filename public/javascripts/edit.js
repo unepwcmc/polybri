@@ -1,8 +1,13 @@
 $(document).ready(function(){
 
   //Chat stuff
-   now.receiveMessage = function(name, message, color){
-     $("#chat").append("<br><span style='color: "+color+"'>" + name + "</span>: " + message);
+  now.receiveMessage = function(name, message, color, sameWriter){
+     if(!sameWriter){
+       $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: " + message+"<br />");
+     }
+     else{
+       $("#chat").append(message+"<br />");
+     }
    }
    $("#send").click(function(){
      var msg = $("#text-input").val();
@@ -11,10 +16,8 @@ $(document).ready(function(){
        $("#text-input").val('');
      }
    });
-
   //Polygon stuff
   now.receivePolygon = function(name, GeoJson){
-
   };
 
   loadMap();

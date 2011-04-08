@@ -46,7 +46,23 @@ body {
     clear: both;
 }
 
+#chat{
+    width:290px;
+    height:390px;
+    overflow:auto;
+    border: 1px solid gray;
+    padding: 5px;
+    font-size: 90%;
+}
+#text-input{
+    width: 290px;
+}
+
 #send {
     display: block;
     margin-top: 5px;
+}
+
+.clear {
+    clear: both;
 }
