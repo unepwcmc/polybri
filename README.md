@@ -12,7 +12,7 @@ node server.js
 Did you install node via brew? Bad idea, go install from source.
 
 ## Node modules needed
-ejs
-express
-now 
+-ejs
+-express
+-now 
 (install these with 'npm install <package-name>')
