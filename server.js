@@ -1,7 +1,11 @@
-var http = require('http');
-
-var server = http.createServer( function(req, res) {
-        res.writeHead(200);
-        res.end('Hello Http');
+var fs = require('fs');
+var server = require('http').createServer(function(req, response){
+  fs.readFile(__dirname+'/edit.html', function(err, data){
+    response.writeHead(200, {'Content-Type':'text/html'}); 
+    response.write(data);  
+    response.end();
+  });
 });
 server.listen(8080);
+var everyone = require("now").initialize(server);
+
