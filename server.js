@@ -12,5 +12,5 @@ server.listen(9001);
 var everyone = require("now").initialize(server);
 
 everyone.now.distributeMessage= function(msg) {
-  everyone.new.receiveMessage(this.now.name, msg);
+  everyone.now.receiveMessage(this.now.name, msg);
 }
