@@ -23,5 +23,9 @@ app.listen(9001);
 var everyone = require("now").initialize(app);
 
 everyone.now.distributeMessage= function(msg) {
-  everyone.now.receiveMessage(this.now.name, msg);
+  everyone.now.receiveMessage(this.now.name, msg, ["red", "blue"][rand(2)-1] );
+}
+
+function rand(n){
+  return(Math.floor(Math.random()*n+1));
 }
