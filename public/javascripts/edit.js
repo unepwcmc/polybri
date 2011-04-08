@@ -6,8 +6,11 @@ $(document).ready(function(){
      $("#chat").append("<br><span style='color: "+color+"'>" + name + "</span>: " + message);
    }
    $("#send").click(function(){
-     now.distributeMessage($("#text-input").val());
-     $("#text-input").val("");
+     var msg = $("#text-input").val();
+     if( msg != '') {
+       now.distributeMessage(msg);
+       $("#text-input").val('');
+     }
    });
    now.giveMeAColor();    
 });
