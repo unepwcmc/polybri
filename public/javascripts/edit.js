@@ -17,11 +17,54 @@ $(document).ready(function(){
 
   };
 
+  loadMap();
 });
 
 var poly;
 var markers = [];
 var path = new google.maps.MVCArray;
+
+var map;
+var bounds;
+
+function loadMap() {
+  var mapOptions = {
+    zoom: 2,
+    disableDefaultUI: true,
+    scrollwheel:true,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+  map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+
+  startPolygon();
+
+  map.setCenter(new google.maps.LatLng(0,0));
+
+  if ($.browser.msie && $.browser.version.substr(0, 3) == "7.0") {
+    var zIndexNumber = 1000;
+
+    $('ul').each(function() {
+      $(this).css('zIndex', zIndexNumber);
+      zIndexNumber -= 10;
+    });
+    $('li').each(function() {
+      $(this).css('zIndex', zIndexNumber);
+      zIndexNumber -= 10;
+    });
+    $('a').each(function() {
+      $(this).css('zIndex', zIndexNumber);
+      zIndexNumber -= 10;
+    });
+  }
+
+  $('#zoom_in').click(function() {
+    map.setZoom(map.getZoom() + 1);
+  });
+  $('#zoom_out').click(function() {
+    map.setZoom(map.getZoom() - 1);
+  });
+}
 
 function startPolygon() {
   poly = new google.maps.Polygon({
@@ -33,6 +76,54 @@ function startPolygon() {
   poly.setPaths(new google.maps.MVCArray([path]));
 
   google.maps.event.addListener(map, 'click', addPoint);
+}
+
+var vertexIcon = new google.maps.MarkerImage('/images/icons/delete_vertex_noover.png',
+        new google.maps.Size(12, 12), // The origin for this image
+        new google.maps.Point(0, 0), // The anchor for this image
+        new google.maps.Point(6, 6)
+        );
+
+function addPoint(event) {
+  addPointUsingLatLong(event.latLng)
+}
+function addPointUsingLatLong(latLng) {
+  path.insertAt(path.length, latLng);
+
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    draggable: true,
+    icon: vertexIcon
+  });
+  markers.push(marker);
+  marker.setTitle("#" + path.length);
+
+  google.maps.event.addListener(marker, 'click', function() {
+    if (markers.length < 4) {
+      if (!$('#done').hasClass('disabled')) {
+        $('#done').addClass('disabled');
+      }
+    }
+
+    marker.setMap(null);
+    for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
+    markers.splice(i, 1);
+    path.removeAt(i);
+  });
+
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+    for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
+    path.setAt(i, marker.getPosition());
+  });
+
+  //do we have a polygon?
+  if (markers.length > 2) {
+    if ($('#done').hasClass('disabled')) {
+      $('#done').removeClass('disabled');
+    }
+  }
 }
 
 function submitPolygon() {
