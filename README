@@ -1,7 +1,0 @@
-Simple now.js polygon editing by WCMC
-
-Node modules needed:
-ejs
-express
-now 
-(install these with 'npm install <package-name>')
