@@ -2,8 +2,8 @@
 
 <style type="text/css">
 	.layer path {
-	  fill: #760B10;
-	  stroke: #FFDFA6;
+	  fill: #003366;
+	  stroke: #dee5ee;
 	  fill-opacity: .7;
 	}
 	
@@ -29,7 +29,7 @@ map.add(po.compass()
     .pan("none"));
 
 	var layer;
-	layer = po.geoJson().url("http://geoipsum.org/polygons.json?perimeter=594&bearing_range=70&polygon_number=30&bb=40.4154619,-129.7709961,60.2192732,-7.3393555");
+	layer = po.geoJson().url("/seed_data/san_fran_polygons.json");
 	map.add(layer);
 
 </script>
