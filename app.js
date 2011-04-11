@@ -52,6 +52,7 @@ if (!module.parent) {
 //Now here
 var everyone = require("now").initialize(app);
 var last_speaker = "";
+
 everyone.now.distributeMessage= function(msg) {
   var sameWriter = (last_speaker == this.now.name);
   last_speaker = this.now.name;
@@ -59,7 +60,7 @@ everyone.now.distributeMessage= function(msg) {
 }
 
 everyone.now.distributePolygon= function(GeoJson) {
-  everyone.now.receivePolygon(this.now.name, GeoJson );
+  everyone.now.receivePolygon(this.now.name, GeoJson);
 }
 
 var clients = 0;
@@ -68,4 +69,6 @@ everyone.connected(function(){
   this.now.color = colors[clients];
   this.now.name = "Cool Guest"+clients;
   clients++;
+  this.now.sayMyName(this.now.name);
+  this.now.sayMyColor(this.now.color);
 });

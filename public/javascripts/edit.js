@@ -13,6 +13,12 @@ $('#zoom_out').click(function() {
 
 $(document).ready(function(){
 
+  now.sayMyName= function(name){
+    now.name = name
+  }
+  now.sayMyColor= function(color){
+    now.color = color
+  }
   // After connected to the server, let's init the map and this user's polygon.
   now.ready(function() {
     var mapOptions = {
@@ -37,7 +43,7 @@ $(document).ready(function(){
     $("#chat").append(message+"<br />");
   }
 
-   $("#send").click(function(){
+  $("#send").click(function(){
      var msg = $("#text-input").val();
      if( msg != '') {
        now.distributeMessage(msg);
@@ -48,6 +54,13 @@ $(document).ready(function(){
 
   //Polygon stuff
   now.receivePolygon = function(name, GeoJson){
+    if(name != now.name){
+      initPolygon(name);
+      var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
+      for (var i = 0, I = zecoordinates[0][0].length; i < I; ++i){
+        addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), false);
+      }
+    }
   };
 
 });
@@ -75,9 +88,9 @@ var vertexIcon = new google.maps.MarkerImage('/images/vertex.png',
         );
 
 function addPoint(event) {
-  addPointUsingLatLong(event.latLng)
+  addPointUsingLatLng(event.latLng, true)
 }
-function addPointUsingLatLong(latLng) {
+function addPointUsingLatLng(latLng, propagate) {
   my_path.insertAt(my_path.length,latLng);
 
   var marker = new google.maps.Marker({
@@ -89,7 +102,8 @@ function addPointUsingLatLong(latLng) {
   my_markers.push(marker);
   marker.setTitle("#" + my_path.length);
 
-  propagateChanges();
+  if(propagate)
+   propagateChanges();
 
   // Remove on click.
   google.maps.event.addListener(marker, 'click', function() {
@@ -98,14 +112,16 @@ function addPointUsingLatLong(latLng) {
       ;
     my_markers.splice(i, 1);
     my_path.removeAt(i);
-    propagateChanges();
+    if(propagate)
+      propagateChanges();
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
     for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i)
       ;
-    my_path.setAt(i, marker.getPosition());
-    propagateChanges();
+      my_path.setAt(i, marker.getPosition());
+      if(propagate)
+        propagateChanges();
   });
 }
 
