@@ -60,7 +60,7 @@ everyone.now.distributeMessage= function(msg) {
 }
 
 everyone.now.distributePolygon= function(GeoJson) {
-  everyone.now.receivePolygon(this.now.name, GeoJson);
+  everyone.now.receivePolygon(this.now.name, GeoJson, this.now.color);
 }
 
 var clients = 0;
@@ -69,8 +69,7 @@ everyone.connected(function(){
   this.now.color = colors[clients];
   this.now.name = "Cool Guest"+clients;
   clients++;
-  this.now.sayMyName(this.now.name);
-  this.now.sayMyColor(this.now.color);
+  this.now.sayMyStuff(this.now.name, this.now.color);
 });
 
 
