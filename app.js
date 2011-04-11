@@ -65,7 +65,7 @@ everyone.now.distributePolygon= function(GeoJson) {
 var clients = 0;
 var colors = ["green", "blue", "purple", "lime", "red"];
 everyone.connected(function(){
-        this.now.color = colors[clients];
-        this.now.name = "Cool Guest"+clients;
-        clients++;
+  this.now.color = colors[clients];
+  this.now.name = "Cool Guest"+clients;
+  clients++;
 });
