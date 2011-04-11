@@ -51,6 +51,10 @@ $('#zoom_out').click(function() {
      }
    });
 
+    function agree(){
+        now.savepolygon(now.name, getGeojson());
+    }
+
   //Polygon stuff
   now.receivePolygon = function(name, GeoJson){
     if(name != now.name){
@@ -124,20 +128,25 @@ function addPointUsingLatLng(latLng, propagate) {
 }
 
 function propagateChanges() {
-/*adapted from Lifeweb's calculator.js*/
-  var pathArray = [];
-  var numPoints = my_path.length;
-  for (var i = 0; i < numPoints; i++) {
+  var geojson = getGeojson();
+  now.distributePolygon(geojson);
+}
+
+function getGeojson(){
+    /*adapted from Lifeweb's calculator.js*/
+    var pathArray = [];
+    var numPoints = my_path.length;
+    for (var i = 0; i < numPoints; i++) {
     var point = my_path.getAt(i);
     var lat = point.lat();
     var lng = point.lng();
     pathArray.push([lng,lat]);
+
+    var geojson = $.toJSON({
+      "type":"MultiPolygon",
+      "coordinates":[[pathArray]]
+    });
+
+    return geojson;
   }
-
-  var geojson = $.toJSON({
-    "type":"MultiPolygon",
-    "coordinates":[[pathArray]]
-  });
-  now.distributePolygon(geojson);
 }
-

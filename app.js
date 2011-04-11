@@ -77,9 +77,9 @@ everyone.connected(function(){
 var pg = require('pg');
 var conString = "pg://postgres:postgres@localhost:5432/polybri";
 
-everyone.now.savepolygon=function(wkt)
+everyone.now.savepolygon=function(owner, geoJson)
 {
-    savePolygon(wkt);
+    savePolygonasGeoJson(owner, geoJson);
 }
 
 function retrievePolygon(callback)
@@ -111,3 +111,18 @@ function savePolygon(wkt)
     });
   });
 }
+
+function savePolygonasGeoJson(name, geoJson)
+{
+
+  var query = "INSERT INTO polygons (name1, name2, geoJson) VALUES ('" + name + "','" + 'other person' + "','" + geoJson + "')" ;
+
+  pg.connect(conString, function(err, client) {
+    client.query(query, function(err, result) {
+        if(err) {
+         console.log(err);
+        }
+    });
+  });
+}
+
