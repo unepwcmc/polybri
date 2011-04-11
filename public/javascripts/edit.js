@@ -13,28 +13,6 @@ $('#zoom_out').click(function() {
 
 $(document).ready(function(){
 
-  //Chat stuff
-  now.receiveMessage = function(name, message, color, sameWriter){
-     if(!sameWriter){
-       $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: " + message+"<br />");
-     }
-     else{
-       $("#chat").append(message+"<br />");
-     }
-   }
-   $("#send").click(function(){
-     var msg = $("#text-input").val();
-     if( msg != '') {
-       now.distributeMessage(msg);
-       $("#text-input").val('');
-       $("#text-input").focus();
-     }
-   });
-
-  //Polygon stuff
-  now.receivePolygon = function(name, GeoJson){
-  };
-
   // After connected to the server, let's init the map and this user's polygon.
   now.ready(function() {
     var mapOptions = {
@@ -51,6 +29,27 @@ $(document).ready(function(){
     // Map won't load until centered or bounded.
     map.setCenter(new google.maps.LatLng(0,0));
   });
+
+  //Chat stuff
+  now.receiveMessage = function(name, message, color, sameWriter){
+    if(!sameWriter)
+      $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
+    $("#chat").append(message+"<br />");
+  }
+
+   $("#send").click(function(){
+     var msg = $("#text-input").val();
+     if( msg != '') {
+       now.distributeMessage(msg);
+       $("#text-input").val('');
+       $("#text-input").focus();
+     }
+   });
+
+  //Polygon stuff
+  now.receivePolygon = function(name, GeoJson){
+  };
+
 });
 
 function initPolygon(owner) {
