@@ -11,7 +11,6 @@ $('#zoom_out').click(function() {
   map.setZoom(map.getZoom() - 1);
 });
 
-$(document).ready(function(){
 
   now.sayMyName= function(name){
     now.name = name
@@ -38,8 +37,8 @@ $(document).ready(function(){
 
   //Chat stuff
   now.receiveMessage = function(name, message, color, sameWriter){
-    if(!sameWriter)
-      $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
+  if(!sameWriter)
+    $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
     $("#chat").append(message+"<br />");
   }
 
@@ -63,7 +62,6 @@ $(document).ready(function(){
     }
   };
 
-});
 
 function initPolygon(owner) {
   var poly = polygons[owner];

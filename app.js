@@ -72,3 +72,42 @@ everyone.connected(function(){
   this.now.sayMyName(this.now.name);
   this.now.sayMyColor(this.now.color);
 });
+
+
+var pg = require('pg');
+var conString = "pg://postgres:postgres@localhost:5432/polybri";
+
+everyone.now.savepolygon=function(wkt)
+{
+    savePolygon(wkt);
+}
+
+function retrievePolygon(callback)
+{
+  var query = "SELECT ST_AsText(the_geom) as geometry FROM polygons";
+
+  pg.connect(conString, function(err, client) {
+    client.query(query, function(err, result) {
+        if(err) {
+         console.log(err);
+        }
+        else
+        {
+          return callback(result.rows[0].geometry);
+        }
+    });
+  });
+}
+
+function savePolygon(wkt)
+{
+  var query = "INSERT INTO polygons (the_geom) VALUES (ST_GeomFromText('" + wkt + "'))" ;
+
+  pg.connect(conString, function(err, client) {
+    client.query(query, function(err, result) {
+        if(err) {
+         console.log(err);
+        }
+    });
+  });
+}
