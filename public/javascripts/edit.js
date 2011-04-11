@@ -3,23 +3,26 @@ $(document).ready(function(){
   var polys = {}
 
   //Chat stuff
-   now.receiveMessage = function(name, message, color){
-     $("#chat").append("<br><span style='color: "+color+"'>" + name + "</span>: " + message);
+  now.receiveMessage = function(name, message, color, sameWriter){
+     if(!sameWriter){
+       $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: " + message+"<br />");
+     }
+     else{
+       $("#chat").append(message+"<br />");
+     }
    }
    $("#send").click(function(){
-     now.distributeMessage($("#text-input").val());
-     $("#text-input").val("");
+     if( $("#text-input").val() != ""){
+       now.distributeMessage($("#text-input").val());
+       $("#text-input").val("");
+     }
    });
-
   //Polygon stuff
   now.receivePolygon = function(name, GeoJson){
-
     /* engage sudocode!
     polys[name].delete
     polys[name] = polygon.create(GeoJson)
     */
-
   };
-
 });
   
