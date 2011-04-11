@@ -11,53 +11,43 @@ $('#zoom_out').click(function() {
   map.setZoom(map.getZoom() - 1);
 });
 
-$(document).ready(function(){
+// After connected to the server, let's init the map and this user's polygon.
+now.ready(function() {
+var mapOptions = {
+  zoom: 2,
+  disableDefaultUI: true,
+  scrollwheel:true,
+  mapTypeId: google.maps.MapTypeId.TERRAIN
+};
+map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-  var polys = {}
+initPolygon(now.name);
+google.maps.event.addListener(map, 'click', addPoint);
 
-  //Chat stuff
-  now.receiveMessage = function(name, message, color, sameWriter){
-     if(!sameWriter){
-       $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: " + message+"<br />");
-     }
-     else{
-       $("#chat").append(message+"<br />");
-     }
-   }
-   $("#send").click(function(){
-     var msg = $("#text-input").val();
-     if( msg != '') {
-       now.distributeMessage(msg);
-       $("#text-input").val('');
-       $("#text-input").focus();
-     }
-   });
-
-  //Polygon stuff
-  now.receivePolygon = function(name, GeoJson){
-    /* engage sudocode!
-    polys[name].delete
-    polys[name] = polygon.create(GeoJson)
-    */
-  };
-
-  // After connected to the server, let's init the map and this user's polygon.
-  now.ready(function() {
-    var mapOptions = {
-      zoom: 2,
-      disableDefaultUI: true,
-      scrollwheel:true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-    initPolygon(now.name);
-    google.maps.event.addListener(map, 'click', addPoint);
-
-    // Map won't load until centered or bounded.
-    map.setCenter(new google.maps.LatLng(0,0));
-  });
+// Map won't load until centered or bounded.
+map.setCenter(new google.maps.LatLng(0,0));
 });
+
+//Chat stuff
+now.receiveMessage = function(name, message, color, sameWriter){
+if(!sameWriter)
+  $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
+$("#chat").append(message+"<br />");
+}
+
+$("#send").click(function(){
+ var msg = $("#text-input").val();
+ if( msg != '') {
+   now.distributeMessage(msg);
+   $("#text-input").val('');
+   $("#text-input").focus();
+ }
+});
+
+//Polygon stuff
+now.receivePolygon = function(name, GeoJson){
+};
+
 
 function initPolygon(owner) {
   var poly = polygons[owner];
