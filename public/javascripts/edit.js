@@ -10,12 +10,11 @@ $('#zoom_in').click(function() {
 $('#zoom_out').click(function() {
   map.setZoom(map.getZoom() - 1);
 });
-  now.sayMyStuff= function(name, color){
-          now.name = name
-          now.color = color
-    initPolygon(name, color);
-  }
-$(document).ready(function(){
+now.sayMyStuff= function(name, color){
+  now.name = name
+  now.color = color
+  initPolygon(name, color);
+}
   // After connected to the server, let's init the map and this user's polygon.
   now.ready(function() {
     var mapOptions = {
@@ -33,8 +32,8 @@ $(document).ready(function(){
 
   //Chat stuff
   now.receiveMessage = function(name, message, color, sameWriter){
-  if(!sameWriter)
-    $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
+    if(!sameWriter)
+      $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
     $("#chat").append(message+"<br />");
   }
 
@@ -47,6 +46,10 @@ $(document).ready(function(){
      }
    });
 
+    function agree(){
+        now.savepolygon(now.name, getGeojson());
+    }
+
   //Polygon stuff
   now.receivePolygon = function(name, GeoJson, color){
     if(name != now.name){
@@ -57,7 +60,6 @@ $(document).ready(function(){
       }
     }
   };
-});
 
 function initPolygon(owner, color) {
   var poly = polygons[owner];
@@ -124,9 +126,14 @@ function addPointUsingLatLng(latLng, name) {
 }
 
 function propagateChanges(name) {
-  /*adapted from Lifeweb's calculator.js*/
   if(name != now.name)
     return;
+  getGeojson(name);
+  //now.distributePolygon(geojson);
+}
+
+function getGeojson(name){
+  /*adapted from Lifeweb's calculator.js*/
   var pathArray = [];
   var my_path = all_paths[name];
   var numPoints = my_path.length;
@@ -135,11 +142,11 @@ function propagateChanges(name) {
     var lat = point.lat();
     var lng = point.lng();
     pathArray.push([lng,lat]);
+    var geojson = $.toJSON({
+      "type":"MultiPolygon",
+      "coordinates":[[pathArray]]
+    });
+    //return geojson;
+    now.distributePolygon(geojson);
   }
-  var geojson = $.toJSON({
-    "type":"MultiPolygon",
-    "coordinates":[[pathArray]]
-  });
-  now.distributePolygon(geojson);
 }
-
