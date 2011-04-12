@@ -81,6 +81,34 @@ everyone.now.savepolygon=function(owner, geoJson)
     savePolygonasGeoJson(owner, geoJson);
 }
 
+everyone.now.retrievePolygons= function() {
+    retrieveGeojsonPolygons(function(result){
+        var features = [];
+        for (var i = 0; i < result.rows.length; i++)
+        {
+            features.push('{"geometry":' + result.rows[i].geojson + '}');
+        }
+        everyone.now.receiveAllPolygons(features);
+    });
+}
+
+function retrieveGeojsonPolygons(callback)
+{
+  pg.connect(conString, function(err, client) {
+    client.query("SELECT name1, name2, geojson from polygons", function(err, result) {
+        if(err) {
+         console.log(err);
+        }
+        else
+        {
+          console.log("number of polygons retrieved: %d",result.rows.length);
+          return callback(result);
+        }
+    });
+  });
+}
+
+
 function retrievePolygon(callback)
 {
   var query = "SELECT ST_AsText(the_geom) as geometry FROM polygons";
