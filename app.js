@@ -77,7 +77,7 @@ var conString = "pg://postgres:postgres@localhost:5432/polybri";
 
 everyone.now.savepolygon=function(geoJson)
 {
-    savePolygonasGeoJson(geoJson);
+    savePolygonasGeoJson(this.now.name, geoJson);
 }
 
 everyone.now.retrievePolygons= function() {
