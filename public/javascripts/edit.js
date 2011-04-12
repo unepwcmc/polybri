@@ -77,7 +77,10 @@ function initPolygon(owner, color) {
     poly.setPaths(new google.maps.MVCArray([my_path]));
     polygons[owner] = poly;
   } else {
-    
+    var my_path = all_paths[owner];
+    for(var i = my_path.length; i >= 0; i--){
+      my_path.removeAt(i);
+    }
   }
 }
 
@@ -128,8 +131,8 @@ function addPointUsingLatLng(latLng, name) {
 function propagateChanges(name) {
   if(name != now.name)
     return;
-  getGeojson(name);
-  //now.distributePolygon(geojson);
+  var geojson = getGeojson(name);
+  now.distributePolygon(geojson);
 }
 
 function getGeojson(name){
@@ -142,11 +145,10 @@ function getGeojson(name){
     var lat = point.lat();
     var lng = point.lng();
     pathArray.push([lng,lat]);
+  }
     var geojson = $.toJSON({
       "type":"MultiPolygon",
       "coordinates":[[pathArray]]
     });
-    //return geojson;
-    now.distributePolygon(geojson);
-  }
+    return geojson;
 }
