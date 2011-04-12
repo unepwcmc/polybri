@@ -52,6 +52,7 @@ if (!module.parent) {
 //Now here
 var everyone = require("now").initialize(app);
 var last_speaker = "";
+
 everyone.now.distributeMessage= function(msg) {
   var sameWriter = (last_speaker == this.now.name);
   last_speaker = this.now.name;
@@ -59,7 +60,7 @@ everyone.now.distributeMessage= function(msg) {
 }
 
 everyone.now.distributePolygon= function(GeoJson) {
-  everyone.now.receivePolygon(this.now.name, GeoJson );
+  everyone.now.receivePolygon(this.now.name, GeoJson, this.now.color);
 }
 
 var clients = 0;
@@ -68,15 +69,16 @@ everyone.connected(function(){
   this.now.color = colors[clients];
   this.now.name = "Cool Guest"+clients;
   clients++;
+  this.now.sayMyStuff(this.now.name, this.now.color);
 });
 
 
 var pg = require('pg');
 var conString = "pg://postgres:postgres@localhost:5432/polybri";
 
-everyone.now.savepolygon=function(wkt)
+everyone.now.savepolygon=function(owner, geoJson)
 {
-    savePolygon(wkt);
+    savePolygonasGeoJson(owner, geoJson);
 }
 
 function retrievePolygon(callback)
@@ -99,6 +101,20 @@ function retrievePolygon(callback)
 function savePolygon(wkt)
 {
   var query = "INSERT INTO polygons (the_geom) VALUES (ST_GeomFromText('" + wkt + "'))" ;
+
+  pg.connect(conString, function(err, client) {
+    client.query(query, function(err, result) {
+        if(err) {
+         console.log(err);
+        }
+    });
+  });
+}
+
+function savePolygonasGeoJson(name, geoJson)
+{
+
+  var query = "INSERT INTO polygons (name1, name2, geoJson) VALUES ('" + name + "','" + 'other person' + "','" + geoJson + "')" ;
 
   pg.connect(conString, function(err, client) {
     client.query(query, function(err, result) {
