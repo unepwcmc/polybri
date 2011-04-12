@@ -23,8 +23,9 @@ div.header {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 
-  border: 1px solid #EF4D00;
+  border: 1px solid #BB4D00;
   border-bottom: 0;
+  background: #FF6D00 url(/images/map_back.png) repeat-x 0% 0%;
 }
 
 h1 {
@@ -78,7 +79,7 @@ h4 {
     padding:10px;
     padding-top: 1px;
     position: relative;
-    background-color:#FF6D00;
+    background-color:#F66A1D;
     
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
@@ -87,7 +88,7 @@ h4 {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 
-    border: 1px solid #EF4D00;
+    border: 1px solid #BB4D00;
     border-top: 0px;
 }
 #map_canvas {
