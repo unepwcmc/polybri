@@ -78,8 +78,11 @@ function initPolygon(owner, color) {
     polygons[owner] = poly;
   } else {
     var my_path = all_paths[owner];
-    for(var i = my_path.length; i >= 0; i--){
+    var my_markers = all_markers[owner];
+    for(var i = my_path.length-1; i >= 0; i--){
       my_path.removeAt(i);
+      var zemarker = my_markers.pop();
+      zemarker.setMap(null);
     }
   }
 }
