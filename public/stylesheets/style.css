@@ -14,20 +14,34 @@ h1 {
   margin-bottom:0px;
   color: white;
   font: bold 25px Verdana;
+
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 h4 {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 10px;
   font: bold 25px Arial;
   color: white;
 }
 #chat_container {
     width: 300px;
-    height:500px;
+    height:480px;
     padding:10px;
     float: right;
 
     background-color:#1D5991;
+
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 #map_container {
     margin-right: 320px;
@@ -35,8 +49,16 @@ h4 {
     max-width: 900px;
     height: 500px;
     padding:10px;
+    padding-top: 0px;
     position: relative;
     background-color:#FF6D00;
+    
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 #map_canvas {
     width:100%;
@@ -71,15 +93,15 @@ h4 {
 
 #chat{
     background-color:white;
-    width:290px;
-    height:390px;
+    height:340px;
+    width: 288px;
     overflow:auto;
     border: 1px solid gray;
     padding: 5px;
     font-size: 90%;
 }
 #text-input{
-    width: 290px;
+    width: 288px;
 }
 
 #send {
