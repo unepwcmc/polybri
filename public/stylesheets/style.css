@@ -1,19 +1,20 @@
 body {
+    background-color: #48494D;
     min-width: 620px;
     max-width: 1220px;
-    margin: 5px auto;
-    border:solid 1px #d3d3d3;
     padding: 5px;
 }
-h1 {
+div.header {
   margin-right: 320px;
+  margin-bottom:0px;
+  margin-top:0px;
+
   min-width: 300px;
   max-width: 900px;
   background-color:#FF6D00;
   padding:10px;
-  margin-bottom:0px;
+  padding-bottom:15px;
   color: white;
-  font: bold 25px Verdana;
 
   -webkit-border-top-left-radius: 5px;
   -webkit-border-top-right-radius: 5px;
@@ -22,6 +23,26 @@ h1 {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+
+h1 {
+  font: bold 35px Verdana;
+  margin: 0px;
+
+  display:inline;
+}
+
+span.credit{
+  font: bold 12px Arial;
+  color: #DDD;
+  text-align: right;
+
+  float:right;
+  padding-top: 5px;
+}
+span.credit a img {
+  vertical-align: top;
+}
+
 h4 {
   margin-top: 0px;
   margin-bottom: 10px;
