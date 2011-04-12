@@ -5,16 +5,38 @@ body {
     border:solid 1px #d3d3d3;
     padding: 5px;
 }
+h1 {
+  margin-right: 320px;
+  min-width: 300px;
+  max-width: 900px;
+  background-color:#FF6D00;
+  padding:10px;
+  margin-bottom:0px;
+  color: white;
+  font: bold 25px Verdana;
+}
+h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font: bold 25px Arial;
+}
 #chat_container {
     width: 300px;
+    height:500px;
+    padding:10px;
     float: right;
+
+    background-color:#1D5991;
+    color: white;
 }
 #map_container {
-    margin-right: 300px;
+    margin-right: 320px;
     min-width: 300px;
     max-width: 900px;
     height: 500px;
+    padding:10px;
     position: relative;
+    background-color:#FF6D00;
 }
 #map_canvas {
     width:100%;
@@ -48,6 +70,7 @@ body {
 }
 
 #chat{
+    background-color:white;
     width:290px;
     height:390px;
     overflow:auto;
