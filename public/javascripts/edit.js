@@ -1,42 +1,9 @@
-
 var map;
 var polygons = [];
 var all_paths = [];
 var all_markers = [];
 
-$('#zoom_in').click(function() {
-  map.setZoom(map.getZoom() + 1);
-});
-$('#zoom_out').click(function() {
-  map.setZoom(map.getZoom() - 1);
-});
-now.sayMyStuff= function(name, color){
-  now.name = name
-  now.color = color
-  initPolygon(name, color);
-}
-  // After connected to the server, let's init the map and this user's polygon.
-  now.ready(function() {
-    var mapOptions = {
-      zoom: 2,
-      disableDefaultUI: true,
-      scrollwheel:true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-    google.maps.event.addListener(map, 'click', addPoint);
-
-    // Map won't load until centered or bounded.
-    map.setCenter(new google.maps.LatLng(0,0));
-  });
-
-  //Chat stuff
-  now.receiveMessage = function(name, message, color, sameWriter){
-    if(!sameWriter)
-      $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
-    $("#chat").append(message+"<br />");
-  }
-
+$(document).ready(function(){
   $("#send").click(function(){
      var msg = $("#text-input").val();
      if( msg != '') {
@@ -46,21 +13,52 @@ now.sayMyStuff= function(name, color){
      }
    });
 
-    function agree(){
-        now.savepolygon(now.name, getGeojson());
-    }
+  $('#zoom_in').click(function() {
+    map.setZoom(map.getZoom() + 1);
+  });
+  $('#zoom_out').click(function() {
+    map.setZoom(map.getZoom() - 1);
+  });
 
-  //Polygon stuff
-  now.receivePolygon = function(name, GeoJson, color){
-    if(name != now.name){
-      initPolygon(name, color);
-      var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
-      for (var i = 0, I = zecoordinates[0][0].length; i < I; ++i){
-        addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), name);
-      }
-    }
+});
+now.sayMyStuff= function(name, color){
+  now.name = name
+  now.color = color
+  initPolygon(name, color);
+}
+// After connected to the server, let's init the map and this user's polygon.
+now.ready(function() {
+  var mapOptions = {
+    zoom: 2,
+    disableDefaultUI: true,
+    scrollwheel:true,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
   };
+  map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+  google.maps.event.addListener(map, 'click', addPoint);
+  // Map won't load until centered or bounded.
+  map.setCenter(new google.maps.LatLng(0,0));
+});
 
+//Chat stuff
+now.receiveMessage = function(name, message, color, sameWriter){
+  if(!sameWriter)
+    $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
+  $("#chat").append(message+"<br />");
+}
+//Polygon stuff
+now.receivePolygon = function(name, GeoJson, color){
+  if(name != now.name){
+    initPolygon(name, color);
+    var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
+    for (var i = 0, I = zecoordinates[0][0].length; i < I; ++i){
+      addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), name);
+    }
+  }
+};
+function agree(){
+  now.savepolygon(now.name, getGeojson());
+}
 function initPolygon(owner, color) {
   var poly = polygons[owner];
   if( typeof(poly) == 'undefined') {

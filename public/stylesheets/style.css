@@ -19,6 +19,7 @@ h4 {
   margin-top: 10px;
   margin-bottom: 10px;
   font: bold 25px Arial;
+  color: white;
 }
 #chat_container {
     width: 300px;
@@ -27,7 +28,6 @@ h4 {
     float: right;
 
     background-color:#1D5991;
-    color: white;
 }
 #map_container {
     margin-right: 320px;
