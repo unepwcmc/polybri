@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -76,9 +75,9 @@ everyone.connected(function(){
 var pg = require('pg');
 var conString = "pg://postgres:postgres@localhost:5432/polybri";
 
-everyone.now.savepolygon=function(owner, geoJson)
+everyone.now.savepolygon=function(geoJson)
 {
-    savePolygonasGeoJson(owner, geoJson);
+    savePolygonasGeoJson(geoJson);
 }
 
 function retrievePolygon(callback)

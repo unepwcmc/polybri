@@ -1,5 +1,5 @@
 var map;
-var polygons = [];
+var polygon = undefined;
 var all_paths = [];
 var all_markers = [];
 
@@ -46,40 +46,37 @@ now.receiveMessage = function(name, message, color, sameWriter){
     $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
   $("#chat").append(message+"<br />");
 }
+
 //Polygon stuff
 now.receivePolygon = function(name, GeoJson, color){
   if(name != now.name){
-    initPolygon(name, color);
+    initPolygon(color);
     var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
     for (var i = 0, I = zecoordinates[0][0].length; i < I; ++i){
-      addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), name);
+      addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), false);
     }
   }
 };
+
 function agree(){
-  now.savepolygon(now.name, getGeojson());
+  now.savepolygon(getGeojson());
 }
-function initPolygon(owner, color) {
-  var poly = polygons[owner];
-  if( typeof(poly) == 'undefined') {
-    poly = new google.maps.Polygon({
+function initPolygon(color) {
+  polygon;
+  if( typeof(polygon) == 'undefined') {
+    polygon = new google.maps.Polygon({
       strokeWeight: 2,
       fillColor: '#FF6600',
       strokeColor: color//'#FF6600'
     });
-    var my_path = new google.maps.MVCArray;
-    var my_markers = [];
-    all_paths[owner] = my_path;
-    all_markers[owner] = my_markers;
-    poly.setMap(map);
-    poly.setPaths(new google.maps.MVCArray([my_path]));
-    polygons[owner] = poly;
+    all_paths = new google.maps.MVCArray;
+    all_markers =[];
+    polygon.setMap(map);
+    polygon.setPaths(new google.maps.MVCArray([all_paths]));
   } else {
-    var my_path = all_paths[owner];
-    var my_markers = all_markers[owner];
-    for(var i = my_path.length-1; i >= 0; i--){
-      my_path.removeAt(i);
-      var zemarker = my_markers.pop();
+    for(var i = all_paths.length-1; i >= 0; i--){
+      all_paths.removeAt(i);
+      var zemarker = all_markers.pop();
       zemarker.setMap(null);
     }
   }
@@ -92,12 +89,12 @@ var vertexIcon = new google.maps.MarkerImage('/images/vertex.png',
         );
 
 function addPoint(event) {
-  addPointUsingLatLng(event.latLng, now.name)
+  addPointUsingLatLng(event.latLng)
 }
-function addPointUsingLatLng(latLng, name) {
-  var my_path = all_paths[name];
-  var my_markers = all_markers[name];
-  my_path.insertAt(my_path.length,latLng);
+function addPointUsingLatLng(latLng, propagate) {
+  if (typeof(propagate) === 'undefined')
+    propagate = true
+  all_paths.insertAt(all_paths.length,latLng);
 
   var marker = new google.maps.Marker({
     position: latLng,
@@ -105,33 +102,31 @@ function addPointUsingLatLng(latLng, name) {
     draggable: true,
     icon: vertexIcon
   });
-  my_markers.push(marker);
-  marker.setTitle("#" + my_path.length);
-  propagateChanges(name);
-  if(name != now.name)
-    return;
+  all_markers.push(marker);
+  marker.setTitle("#" + all_paths.length);
+  if (propagate)
+    propagateChanges();
+
   //Can only edit owns' vertices
   // Remove on click.
   google.maps.event.addListener(marker, 'click', function() {
     marker.setMap(null);
-    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i)
+    for (var i = 0, I = all_markers.length; i < I && all_markers[i] != marker; ++i)
       ;
-    my_markers.splice(i, 1);
-    my_path.removeAt(i);
-    propagateChanges(name);
+    all_markers.splice(i, 1);
+    all_paths.removeAt(i);
+    propagateChanges();
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
-    for (var i = 0, I = my_markers.length; i < I && my_markers[i] != marker; ++i)
+    for (var i = 0, I = all_markers.length; i < I && all_markers[i] != marker; ++i)
       ;
-      my_path.setAt(i, marker.getPosition());
-      propagateChanges(name);
+      all_paths.setAt(i, marker.getPosition());
+      propagateChanges();
   });
 }
 
-function propagateChanges(name) {
-  if(name != now.name)
-    return;
+function propagateChanges() {
   var geojson = getGeojson(name);
   now.distributePolygon(geojson);
 }
@@ -139,7 +134,7 @@ function propagateChanges(name) {
 function getGeojson(name){
   /*adapted from Lifeweb's calculator.js*/
   var pathArray = [];
-  var my_path = all_paths[name];
+  var my_path = all_paths;
   var numPoints = my_path.length;
   for (var i = 0; i < numPoints; i++) {
     var point = my_path.getAt(i);
