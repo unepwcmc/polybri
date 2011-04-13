@@ -153,7 +153,9 @@ h4 {
 }
 
 #agree {
-  color:#DDD;
+  padding-left: 5px;
+  color:#F66A1D;
+  font-weight: bold;
 }
 
 hr {
