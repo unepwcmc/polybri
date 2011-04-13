@@ -4,14 +4,13 @@ var all_paths = [];
 var all_markers = [];
 
 $(document).ready(function(){
-  $("#send").click(function(){
-     var msg = $("#text-input").val();
-     if( msg != '') {
-       now.distributeMessage(msg);
-       $("#text-input").val('');
-       $("#text-input").focus();
-     }
-   });
+  $("#send").click(sendMessage);
+
+  $('#text-input').keyup(function(e) {
+    if(e.keyCode == 13) {
+     sendMessage();
+    }
+  });
 
   $('#zoom_in').click(function() {
     map.setZoom(map.getZoom() + 1);
@@ -20,11 +19,13 @@ $(document).ready(function(){
     map.setZoom(map.getZoom() - 1);
   });
 
+
 });
+
 now.sayMyStuff= function(name, color){
   now.name = name
   now.color = color
-  initPolygon(name, color);
+  initPolygon();
 }
 // After connected to the server, let's init the map and this user's polygon.
 now.ready(function() {
@@ -47,28 +48,35 @@ now.receiveMessage = function(name, message, color, sameWriter){
   $("#chat").append(message+"<br />");
 }
 
+sendMessage = function(){
+    var msg = $("#text-input").val();
+    if( msg != '') {
+      now.distributeMessage(msg);
+      $("#text-input").val('');
+      $("#text-input").focus();
+    }
+  }
+
 //Polygon stuff
-now.receivePolygon = function(name, GeoJson, color, carbon){
+now.receivePolygon = function(name, GeoJson, carbon){
   if(name != now.name){
-    initPolygon(color);
+    initPolygon();
     var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
     for (var i = 0, I = zecoordinates[0][0].length; i < I; ++i){
       addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), false);
     }
   }
-alert(carbon);
 };
 
 function agree(){
   now.savepolygon(getGeojson());
 }
-function initPolygon(color) {
-  polygon;
+function initPolygon() {
   if( typeof(polygon) == 'undefined') {
     polygon = new google.maps.Polygon({
       strokeWeight: 2,
       fillColor: '#FF6600',
-      strokeColor: color//'#FF6600'
+      strokeColor: '#FF6600'
     });
     all_paths = new google.maps.MVCArray;
     all_markers =[];
@@ -128,11 +136,11 @@ function addPointUsingLatLng(latLng, propagate) {
 }
 
 function propagateChanges() {
-  var geojson = getGeojson(name);
+  var geojson = getGeojson();
   now.distributePolygon(geojson);
 }
 
-function getGeojson(name){
+function getGeojson(){
   /*adapted from Lifeweb's calculator.js*/
   var pathArray = [];
   var my_path = all_paths;

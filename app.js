@@ -60,7 +60,7 @@ everyone.now.distributeMessage= function(msg) {
 
 everyone.now.distributePolygon= function(GeoJson) {
 	// need to check no. vertices before firing off carbon analysis
-  everyone.now.receivePolygon(this.now.name, GeoJson, this.now.color, oldskoolCarbon(GeoJson));
+  everyone.now.receivePolygon(this.now.name, GeoJson, oldskoolCarbon(GeoJson));
 }
 
 var clients = 0;
@@ -153,25 +153,7 @@ function savePolygonasGeoJson(name, geoJson)
   });
 }
 
-// function getCarbonHeight(geojson){
-//   var dataObj = {"area":'10000',"geojson": geojson}; 
-// 
-//   $.ajax({
-//     type: 'POST',
-//     url: "http://ec2-174-129-149-237.compute-1.amazonaws.com/carbon",	
-//     //url: "/carbon",
-//     data: dataObj,
-//     cache: false,
-//     dataType: 'json',
-//     success: function(result){
-//       return 'success arse'
-//       // return $().number_format(Math.floor(result.sum_Band1), {numberOfDecimals:0, decimalSeparator: '.', thousandSeparator: ' '});
-//       },
-//       error:function (xhr, ajaxOptions, thrownError){
-//         return 'arse'
-//       }
-// });
-// }
+
 
 function oldskoolCarbon(geojson){
 	console.log(geojson);
