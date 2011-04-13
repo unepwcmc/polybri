@@ -131,10 +131,10 @@ function retrievePolygon(callback)
 
 function savePolygon(wkt)
 {
-  var query = "INSERT INTO polygons (the_geom) VALUES (ST_GeomFromText('" + wkt + "'))" ;
+  var query = "INSERT INTO polygons (the_geom) VALUES (ST_GeomFromText($1))" ;
 
   pg.connect(conString, function(err, client) {
-    client.query(query, function(err, result) {
+    client.query({text:query, values:[wkt]}, function(err, result) {
         if(err) {
          console.log(err);
         }
@@ -144,11 +144,13 @@ function savePolygon(wkt)
 
 function savePolygonasGeoJson(name, geoJson)
 {
-
-  var query = "INSERT INTO polygons (name1, name2, geoJson) VALUES ('" + name + "','" + 'other person' + "','" + geoJson + "')" ;
+  var query = "INSERT INTO polygons (name1, name2, geoJson) VALUES ($1,'other person',$2)" ;
 
   pg.connect(conString, function(err, client) {
-    client.query(query, function(err, result) {
+  client.query({
+    text: query,
+    values: [name, geoJson]
+  }, function(err, result) {
         if(err) {
          console.log(err);
         }
