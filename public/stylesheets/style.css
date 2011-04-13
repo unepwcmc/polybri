@@ -54,6 +54,8 @@ h4 {
   color: white;
 }
 #chat_container {
+    font: normal 17px Arial;
+        
     width: 300px;
     height:480px;
     padding:10px;
@@ -141,12 +143,24 @@ h4 {
     font-size: 90%;
 }
 #text-input{
-    width: 288px;
+    width: 238px;
 }
 
 #send {
-    display: block;
-    margin-top: 5px;
+    margin-top: 10px;
+    float:right;
+    width: 50px;
+}
+
+#agree {
+  padding-left: 5px;
+  color:#F66A1D;
+  font-weight: bold;
+}
+
+hr {
+  border-color: #AAA;
+  border-top-width: 0px;
 }
 
 .clear {

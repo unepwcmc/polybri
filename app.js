@@ -5,7 +5,7 @@
 var jQuery = require('jquery');
 
 var express = require('express');
-
+var http = require('http')
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -73,7 +73,8 @@ everyone.now.distributeMessage= function(msg) {
 }
 
 everyone.now.distributePolygon= function(GeoJson) {
-  everyone.now.receivePolygon(this.now.name, GeoJson, this.now.color);
+	// need to check no. vertices before firing off carbon analysis
+  everyone.now.receivePolygon(this.now.name, GeoJson, oldskoolCarbon(GeoJson));
 }
 
 var clients = 0;
@@ -153,4 +154,34 @@ function savePolygonasGeoJson(name, geoJson)
         }
     });
   });
+}
+
+
+
+function oldskoolCarbon(geojson){
+	console.log(geojson);
+	var dataObj = JSON.stringify({"area":'10000',"geojson": geojson}); 
+	var self = this
+	
+	var connection = http.createClient(4567, 'ec2-174-129-149-237.compute-1.amazonaws.com')
+	var request = connection.request("POST", "/carbon", { 
+	   'host':'ec2-174-129-149-237.compute-1.amazonaws.com', 
+	   "User-Agent": "NodeJS HTTP Client", 
+	   'Content-Length': dataObj.length, 
+	 }); 
+	
+	request.addListener('response', function(response){
+	    var data = '';
+
+	    response.addListener('data', function(chunk){ 
+	        data += chunk; 
+	    });
+	    response.addListener('end', function(){
+	        console.log(data);
+	    });
+	});
+
+	request.write(dataObj);
+	request.end();
+
 }
