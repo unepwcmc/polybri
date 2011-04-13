@@ -45,7 +45,7 @@ now.ready(function() {
 now.receiveMessage = function(name, message, color, sameWriter){
   if(!sameWriter)
     $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
-  $("#chat").append(message+"<br />");
+  $("#chat").append(escape(message)+"<br />");
 }
 
 sendMessage = function(){
