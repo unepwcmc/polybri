@@ -4,14 +4,13 @@ var all_paths = [];
 var all_markers = [];
 
 $(document).ready(function(){
-  $("#send").click(function(){
-     var msg = $("#text-input").val();
-     if( msg != '') {
-       now.distributeMessage(msg);
-       $("#text-input").val('');
-       $("#text-input").focus();
-     }
-   });
+  $("#send").click(sendMessage);
+
+  $('#text-input').keyup(function(e) {
+    if(e.keyCode == 13) {
+     sendMessage();
+    }
+  });
 
   $('#zoom_in').click(function() {
     map.setZoom(map.getZoom() + 1);
@@ -19,6 +18,7 @@ $(document).ready(function(){
   $('#zoom_out').click(function() {
     map.setZoom(map.getZoom() - 1);
   });
+
 
 });
 
@@ -47,6 +47,15 @@ now.receiveMessage = function(name, message, color, sameWriter){
     $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
   $("#chat").append(message+"<br />");
 }
+
+sendMessage = function(){
+    var msg = $("#text-input").val();
+    if( msg != '') {
+      now.distributeMessage(msg);
+      $("#text-input").val('');
+      $("#text-input").focus();
+    }
+  }
 
 //Polygon stuff
 now.receivePolygon = function(name, GeoJson){
