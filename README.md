@@ -16,4 +16,5 @@ Did you install node via brew? Bad idea, go install from source.
 -express
 -now
 -pg
+-jquery
 (install these with 'npm install <package-name>')
