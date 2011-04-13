@@ -158,19 +158,25 @@ function savePolygonasGeoJson(name, geoJson)
 function oldskoolCarbon(geojson){
 	console.log(geojson);
 	var dataObj = JSON.stringify({"area":'10000',"geojson": geojson}); 
-	var self = this
 	
 	var connection = http.createClient(4567, 'ec2-174-129-149-237.compute-1.amazonaws.com')
 	var request = connection.request("POST", "/carbon", { 
 	   'host':'ec2-174-129-149-237.compute-1.amazonaws.com', 
 	   "User-Agent": "NodeJS HTTP Client", 
-	   'Content-Length': dataObj.length, 
+	   'Content-Length': dataObj.length 
 	 }); 
+        console.log("sending request to " + 
+                        request.url + ", headers " +
+                        request.headers + ", method " +
+                        request.method
+                        );
 	
 	request.addListener('response', function(response){
+            console.log("received response: ");
 	    var data = '';
 
 	    response.addListener('data', function(chunk){ 
+	        console.log("received data chunk: " + data);
 	        data += chunk; 
 	    });
 	    response.addListener('end', function(){
@@ -178,7 +184,7 @@ function oldskoolCarbon(geojson){
 	    });
 	});
 
-	request.write(dataObj);
+	//request.write(dataObj);
 	request.end();
 
 }
