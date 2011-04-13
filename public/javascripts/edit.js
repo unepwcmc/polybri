@@ -48,7 +48,7 @@ now.receiveMessage = function(name, message, color, sameWriter){
 }
 
 //Polygon stuff
-now.receivePolygon = function(name, GeoJson, color){
+now.receivePolygon = function(name, GeoJson, color, carbon){
   if(name != now.name){
     initPolygon(color);
     var zecoordinates = jQuery.parseJSON(GeoJson).coordinates;
@@ -56,6 +56,7 @@ now.receivePolygon = function(name, GeoJson, color){
       addPointUsingLatLng(new google.maps.LatLng(zecoordinates[0][0][i][1],zecoordinates[0][0][i][0]), false);
     }
   }
+alert(carbon);
 };
 
 function agree(){
