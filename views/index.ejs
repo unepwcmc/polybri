@@ -13,13 +13,7 @@
   <div id="map" style="width: 100%; height: 600px"></div>
 </div>
 <script type="text/javascript">
-  //Polygon stuff
-    now.receiveAllPolygons = function(geoJsonArray){
-        var layer = po.geoJson().features(geoJsonArray);
-        map.add(layer);
-    };
-
-  var po = org.polymaps;
+var po = org.polymaps;
 
 var map = po.map()
     .container(document.getElementById("map").appendChild(po.svg("svg")))
@@ -35,9 +29,8 @@ map.add(po.image()
 map.add(po.compass()
     .pan("none"));
 
-now.ready(function() {
-    now.retrievePolygons();
-});
+var layer = po.geoJson().url("/polygons");
+map.add(layer);
 </script>
 
 

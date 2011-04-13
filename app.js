@@ -2,6 +2,8 @@
  * Module dependencies.
  */
 
+var jQuery = require('jquery');
+
 var express = require('express');
 
 var app = module.exports = express.createServer();
@@ -41,6 +43,18 @@ app.get('/edit', function(req, res){
   });
 });
 
+app.get('/polygons',function(req, res){
+    retrieveGeojsonPolygons(function(result){
+        var features = [];
+        for (var i = 0; i < result.rows.length; i++)
+        {
+            features.push({"type":"Feature","geometry": jQuery.parseJSON(result.rows[i].geojson)});
+        }
+        res.contentType('json');
+        res.send({"type":"FeatureCollection","features": features});
+    });
+});
+
 // Only listen on $ node app.js
 
 if (!module.parent) {
@@ -78,17 +92,6 @@ var conString = "pg://postgres:postgres@localhost:5432/polybri";
 everyone.now.savepolygon=function(geoJson)
 {
     savePolygonasGeoJson(this.now.name, geoJson);
-}
-
-everyone.now.retrievePolygons= function() {
-    retrieveGeojsonPolygons(function(result){
-        var features = [];
-        for (var i = 0; i < result.rows.length; i++)
-        {
-            features.push('{"geometry":' + result.rows[i].geojson + '}');
-        }
-        everyone.now.receiveAllPolygons(features);
-    });
 }
 
 function retrieveGeojsonPolygons(callback)
