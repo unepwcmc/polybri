@@ -81,7 +81,6 @@ var clients = 0;
 var colors = ["green", "blue", "purple", "lime", "red", "gray", "silver", "darkred", "darkgreen", "darkblue"];
 everyone.connected(function(){
   this.now.color = colors[(clients%10)];
-  this.now.name = "Cool Guest"+clients;
   clients++;
   this.now.sayMyStuff(this.now.name, this.now.color);
 });
@@ -191,5 +190,4 @@ function oldskoolCarbon(geojson){
 
 	//request.write(dataObj);
 	request.end();
-
 }

@@ -166,3 +166,7 @@ hr {
 .clear {
     clear: both;
 }
+
+#sanitized {
+  display:none;
+}

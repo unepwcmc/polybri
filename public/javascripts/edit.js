@@ -4,6 +4,8 @@ var all_paths = [];
 var all_markers = [];
 
 $(document).ready(function(){
+  now.name = prompt('What is your name?');
+
   $("#send").click(sendMessage);
 
   $('#text-input').keyup(function(e) {
@@ -44,11 +46,8 @@ now.ready(function() {
 //Chat stuff
 now.receiveMessage = function(name, message, color, sameWriter){
   if(!sameWriter)
-    $("#chat").append("<span style='color: "+color+"'>" + name + "</span>: ");
-    previousHtml = $("#chat").html()
-    $("#chat").text(message+"\n");
-    $("#chat").append("<br />");
-    $("#chat").prepend(previousHtml);
+    $("#chat").append("<span style='color: "+color+"'>" + sanitizeText(name) + ": </span>");
+  $("#chat").append(sanitizeText(message) + "<br />");
 }
 
 sendMessage = function(){
@@ -159,4 +158,8 @@ function getGeojson(){
       "coordinates":[[pathArray]]
     });
     return geojson;
+}
+
+function sanitizeText(textToAppend) {
+  return $('#sanitized').text(textToAppend).html();
 }
