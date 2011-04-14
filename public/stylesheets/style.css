@@ -34,6 +34,12 @@ h1 {
 
   display:inline;
 }
+h2 {
+  color:white;
+  margin-bottom:5px;
+  margin-top:5px;
+  border-bottom: 1px solid #8888AA;
+}
 
 span.credit{
   font: bold 12px Arial;
@@ -170,3 +176,21 @@ hr {
 #sanitized {
   display:none;
 }
+
+#chat_container p {
+  color: white;
+
+  font: normal 14px Arial;
+}
+
+a {
+  color: #F66A1D;
+  text-decoration: none;
+
+  font-weight: bold;
+}
+
+a.big {
+  font-size: 16px;
+}
+
