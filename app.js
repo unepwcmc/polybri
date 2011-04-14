@@ -83,7 +83,7 @@ everyone.connected(function(){
   this.now.color = colors[(clients%10)];
   clients++;
   quicklog("A new client has connected. Total connections is: "+ clients.toString());
-  this.now.sayMyStuff(this.now.name, this.now.color);
+  this.now.sayMyStuff(this.now.color);
 });
 
 
@@ -163,7 +163,8 @@ function savePolygonasGeoJson(name, geoJson)
 
 function oldskoolCarbon(geojson){
 	console.log(geojson);
-	var dataObj = JSON.stringify({"area":'10000',"geojson": geojson}); 
+	/* this is working right now...
+         * var dataObj = JSON.stringify({"area":'10000',"geojson": geojson}); 
 	
 	var connection = http.createClient(4567, 'ec2-174-129-149-237.compute-1.amazonaws.com')
 	var request = connection.request("POST", "/carbon", { 
@@ -191,14 +192,25 @@ function oldskoolCarbon(geojson){
 	});
 
 	//request.write(dataObj);
-	request.end();
+	request.end();*/
 }
 //http://code.activestate.com/recipes/577351-nodejs-quicklog-method-to-log-to-a-file/
 function quicklog(s) {
-  var logpath = "/var/log/polybri.log";
   var fs = require('fs');
+  var logpath = "/var/log/";
   s = s.toString().replace(/\r\n|\r/g, '\n'); // hack
-  var fd = fs.openSync(logpath, 'a+', 0666);
-  fs.writeSync(fd, s + '\n');
-  fs.closeSync(fd);
+  try{
+    var fd = fs.openSync(logpath + "polybri.log", 'a+', 0666);
+    fs.writeSync(fd, s + '\n');
+    fs.closeSync(fd);
+  } catch (e){
+    console.log("unable to create log file at " + logpath + ", will try in working dir : " + e);
+    try{
+      var fd = fs.openSync("polybri.log", 'a+', 0666);
+      fs.writeSync(fd, s + '\n');
+      fs.closeSync(fd);
+    } catch (e){
+      console.log("unable to create log file in working dir , giving up : " + e);
+    }
+  }
 }

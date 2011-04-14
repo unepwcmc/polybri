@@ -4,7 +4,6 @@ var all_paths = [];
 var all_markers = [];
 
 $(document).ready(function(){
-  now.name = prompt('What is your name?');
 
   $("#send").click(sendMessage);
 
@@ -24,13 +23,14 @@ $(document).ready(function(){
 
 });
 
-now.sayMyStuff= function(name, color){
-  now.name = name
+now.sayMyStuff= function(color){
   now.color = color
   initPolygon();
 }
 // After connected to the server, let's init the map and this user's polygon.
 now.ready(function() {
+  now.name = prompt('What is your name?');
+
   var mapOptions = {
     zoom: 2,
     disableDefaultUI: true,
@@ -163,5 +163,5 @@ function getGeojson(){
 }
 
 function sanitizeText(textToAppend) {
-  return $('#sanitized').text(textToAppend).html();
+  return($('#sanitized').text(textToAppend).html())
 }

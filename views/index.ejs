@@ -12,7 +12,7 @@
 <div id="chat_container">
   <h2>About</h2>
   <p>
-    Welcome to polybri, a collaborative polygon editing demo using <a href="http://nowjs.com/">now.js</a> and developed by <a href="http://unep-wcmc.org">UNEP-WCMC</a>.
+    Welcome to polybri, a collaborative polygon editing demo using <a href="http://nowjs.com/">now.js</a> and developed by <a href="http://new.unep-wcmc.org">UNEP-WCMC</a>.
   </p>
   <p>
     These are user submitted polygons, to edit your own, go here:
@@ -42,9 +42,6 @@ map.add(po.image()
     + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
     + "/998/256/{Z}/{X}/{Y}.png")
     .hosts(["a.", "b.", "c.", ""])));
-
-map.add(po.compass()
-    .pan("none"));
 
 var layer = po.geoJson().url("/polygons");
 map.add(layer);
