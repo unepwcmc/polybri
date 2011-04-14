@@ -2,6 +2,11 @@ var map;
 var polygon = undefined;
 var all_paths = [];
 var all_markers = [];
+  now.sayMyStuff= function(color){
+    now.color = color
+    initPolygon();
+  }
+
 
 $(document).ready(function(){
 
@@ -22,15 +27,9 @@ $(document).ready(function(){
 
 
 });
-
-now.sayMyStuff= function(color){
-  now.color = color
-  initPolygon();
-}
 // After connected to the server, let's init the map and this user's polygon.
 now.ready(function() {
   now.name = prompt('What is your name?');
-
   var mapOptions = {
     zoom: 2,
     disableDefaultUI: true,
