@@ -31,14 +31,14 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Express',
+    title: 'Polybri',
     script: 'index'
   });
 });
 
 app.get('/edit', function(req, res){
   res.render('edit', {
-    title: 'Express',
+    title: 'Polybri',
     script: 'edit'
   });
 });
@@ -82,6 +82,7 @@ var colors = ["green", "blue", "purple", "lime", "red", "gray", "silver", "darkr
 everyone.connected(function(){
   this.now.color = colors[(clients%10)];
   clients++;
+  quicklog("A new client has connected. Total connections is: "+ clients.toString());
   this.now.sayMyStuff(this.now.name, this.now.color);
 });
 
@@ -104,6 +105,7 @@ function retrieveGeojsonPolygons(callback)
         else
         {
           console.log("number of polygons retrieved: %d",result.rows.length);
+          quicklog("Number of polygons retrieved: " + result.rows.length.toString());
           return callback(result);
         }
     });
@@ -190,4 +192,13 @@ function oldskoolCarbon(geojson){
 
 	//request.write(dataObj);
 	request.end();
+}
+//http://code.activestate.com/recipes/577351-nodejs-quicklog-method-to-log-to-a-file/
+function quicklog(s) {
+  var logpath = "/var/log/polybri.log";
+  var fs = require('fs');
+  s = s.toString().replace(/\r\n|\r/g, '\n'); // hack
+  var fd = fs.openSync(logpath, 'a+', 0666);
+  fs.writeSync(fd, s + '\n');
+  fs.closeSync(fd);
 }
