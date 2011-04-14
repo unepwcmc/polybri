@@ -73,6 +73,7 @@ now.receivePolygon = function(name, GeoJson, carbon){
 
 function agree(){
   now.savepolygon(getGeojson());
+  window.location = "/";
 }
 function initPolygon() {
   if( typeof(polygon) == 'undefined') {

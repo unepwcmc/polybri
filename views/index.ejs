@@ -9,13 +9,30 @@
 	
 </style>
 
-<div class="map_container" >
-  <div id="map" style="width: 100%; height: 600px"></div>
+<div id="chat_container">
+  <h2>About</h2>
+  <p>
+    Welcome to polybri, a collaborative polygon editing demo using <a href="http://nowjs.com/">now.js</a> and developed by <a href="http://unep-wcmc.org">UNEP-WCMC</a>.
+  </p>
+  <p>
+    These are user submitted polygons, to edit your own, go here:
+  </p>
+  <p>
+    <a class='big' href="/edit">Collaborative polygon editor ></a>
+  </p>
+
+  <h2>Code</h2>
+  <p>The code for the project is available on our github page:<br/></p>
+  <p><a href="https://github.com/unepwcmc/polybri">polybri on Github</a></p>
+</div>
+
+<div id="map_container" class="map_container">
+  <div id="map" style="width: 100%; height: 100%"></div>
 </div>
 <script type="text/javascript">
 var po = org.polymaps;
 
-var map = po.map()
+var map = po.map().zoom(2).center({lat:0,lon:0})
     .container(document.getElementById("map").appendChild(po.svg("svg")))
     .add(po.interact())
     .add(po.hash());
