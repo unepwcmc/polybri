@@ -48,6 +48,7 @@ now.receiveMessage = function(name, message, color, sameWriter){
   if(!sameWriter)
     $("#chat").append("<span style='color: "+color+"'>" + sanitizeText(name) + ": </span>");
   $("#chat").append(sanitizeText(message) + "<br />");
+  $("#chat").animate({ scrollTop: $("#chat").attr("scrollHeight") }, 300);
 }
 
 sendMessage = function(){
