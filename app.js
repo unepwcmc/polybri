@@ -58,7 +58,7 @@ app.get('/polygons',function(req, res){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  app.listen(9001);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 
